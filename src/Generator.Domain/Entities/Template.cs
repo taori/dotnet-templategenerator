@@ -62,6 +62,11 @@ namespace Generator.Domain.Entities
 		public string SourceName { get; set; }
 
 		/// <summary>
+		/// The set of mappings in the template content to user directories
+		/// </summary>
+		public SourceValue[] Sources { get; set; }
+
+		/// <summary>
 		/// Indicates whether to create a directory for the template if name is specified but an output directory is not set (instead of creating the content directly in the current directory)
 		/// </summary>
 		public bool PreferNameDirectory { get; set; } = true;
@@ -79,7 +84,7 @@ namespace Generator.Domain.Entities
 		/// <summary>
 		/// The symbols section defines variables and their values, the values may be the defined in terms of other symbols. When a defined symbol name is encountered anywhere in the template definition, it is replaced by the value defined in this configuration. The symbols configuration is a collection of key-value pairs. The keys are the symbol names, and the value contains key-value-pair configuration information on how to assign the symbol a value.
 		/// </summary>
-		public Dictionary<string, Symbol> Symbols { get; set; } = new Dictionary<string, Symbol>();
+		public Dictionary<string, BaseSymbol> Symbols { get; set; } = new Dictionary<string, BaseSymbol>();
 
 		/// <summary>
 		/// A filename that will be completely ignored except to indicate that its containing directory should be copied. This allows creation of an empty directory in the created template, by having a corresponding source directory containing just the placeholder file. Completely empty directories are ignored.
