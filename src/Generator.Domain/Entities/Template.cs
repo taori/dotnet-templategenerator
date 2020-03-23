@@ -4,6 +4,7 @@ using System.Collections.Generic;
 namespace Generator.Domain.Entities
 {
 	// http://json.schemastore.org/template
+	// https://github.com/dotnet/templating/blob/5b5eb6278bd745149a57d0882d655b29d02c70f4/src/Microsoft.TemplateEngine.Orchestrator.RunnableProjects/SimpleConfigModel.cs
 	public class Template
 	{
 		/// <summary>
@@ -90,5 +91,10 @@ namespace Generator.Domain.Entities
 		/// A filename that will be completely ignored except to indicate that its containing directory should be copied. This allows creation of an empty directory in the created template, by having a corresponding source directory containing just the placeholder file. Completely empty directories are ignored.
 		/// </summary>
 		public string PlaceholderFileName { get; set; } = "-.-";
+
+		/// <summary>
+		/// A value used to determine how preferred this template is among the other templates with the same groupIdentity (higher values are more preferred)
+		/// </summary>
+		public int Precedence { get; set; }
 	}
 }
