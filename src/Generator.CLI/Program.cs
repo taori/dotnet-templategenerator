@@ -1,60 +1,65 @@
 ﻿using System;
-using System.CommandLine;
-using System.CommandLine.Builder;
-using System.CommandLine.Hosting;
-using System.CommandLine.Invocation;
-using System.CommandLine.Parsing;
 using System.Reflection;
 using System.Threading.Tasks;
+using CommandDotNet;
+using CommandDotNet.IoC.MicrosoftDependencyInjection;
+using CommandDotNet.NameCasing;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using NLog;
+using ILogger = NLog.ILogger;
 
 namespace Generator.CLI
 {
 	class Program
 	{
+		private static readonly ILogger Log = LogManager.GetLogger(nameof(Program));
+
 		static async Task<int> Main(string[] args)
 		{
-			var builder = new CommandLineBuilder()
-				.UseHost(host => { host.ConfigureServices((context, services) =>
-				{
-					services.AddTransient(typeof(ILoggerFactory), typeof(LoggerFactory));
-					services.AddTransient(typeof(ILogger<>), typeof(Logger<>));
-				}); })
-				.UseDebugDirective()
-				.UseHelp()
-				.UseTypoCorrections()
-				.UseAttributedCommands()
-				.UseSuggestDirective();
-
-			var parser = builder.Build();
-			var parseResult = parser.Parse("test -b \"parameter b\" -a \"parameter a\"");
-			var invoke = await parseResult.InvokeAsync();
-			return invoke;
-		}
-	}
-
-	public static class BuilderExtensions
-	{
-		public static CommandLineBuilder UseAttributedCommands(this CommandLineBuilder source)
-		{
-			var method = typeof(BuilderExtensions).GetMethod(nameof(Test), BindingFlags.Static | BindingFlags.NonPublic);
-			var testCommand = new Command("test");
-			testCommand.AddOption(new Option("-a") { Argument = new Argument("-a"){ Arity = ArgumentArity.ExactlyOne}});
-			testCommand.AddOption(new Option("-b") { Argument = new Argument("-b") { Arity = ArgumentArity.ExactlyOne } });
-			testCommand.Handler = CommandHandler.Create(method, null);
-			source.AddCommand(testCommand);
-
-			return source;
+			try
+			{
+				Log.Info("Running application with parameters {@arguments}", args);
+				var runner = new AppRunner<ConsoleApplication>();
+				ConfigureApplication(runner);
+				var exitCode = await runner.RunAsync(args);
+				Log.Info("Application exited with error code {exitCode}.", exitCode);
+				return exitCode;
+			}
+			catch (Exception e)
+			{
+				Log.Error(e, "Application terminated in an unexpected way.");
+				return -1;
+			}
+			finally
+			{
+				LogManager.Flush(TimeSpan.FromSeconds(2));
+#if DEBUG
+				Console.ReadKey();
+#endif
+			}
 		}
 
-		private static void Test(IHost host, string a, string b)
+		private static void ConfigureApplication(AppRunner<ConsoleApplication> runner)
 		{
-			var logger = host.Services.GetRequiredService<ILogger<Program>>();
-			// logger.LogDebug("just a test really");
-			Console.WriteLine(a);
-			Console.WriteLine(b);
+			runner.Configure(configuration =>
+			{
+				configuration.UseParameterResolver(context => context.DependencyResolver);
+			});
+
+			runner
+				.UseNameCasing(Case.LowerCase, true)
+				.UseCommandLogger()
+				.UseTypoSuggestions()
+				.UseMicrosoftDependencyInjection(BuildServiceProvider());
+		}
+
+		private static ServiceProvider BuildServiceProvider()
+		{
+			var serviceCollection = new ServiceCollection();
+			var startup = new Startup();
+			startup.Configure(serviceCollection);
+			return serviceCollection.BuildServiceProvider();
 		}
 	}
 }
