@@ -32,4 +32,9 @@
     <Folder Include="Dependencies\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Generator.Domain\Generator.Domain.csproj" />
+    <ProjectReference Include="..\Generator.Infrastructure\Generator.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

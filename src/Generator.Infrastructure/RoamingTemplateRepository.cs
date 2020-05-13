@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Generator.Domain.Configuration;
 using Generator.Domain.Entities;
@@ -16,7 +17,13 @@ namespace Generator.Infrastructure
 		}
 
 		/// <inheritdoc />
-		public Task<Template[]> GetTemplatesAsync()
+		public Task SaveAsync(IEnumerable<TemplateContainer> containers)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
+		Task<TemplateContainer[]> ITemplateRepository.GetTemplatesAsync()
 		{
 			throw new NotImplementedException();
 		}
