@@ -2,6 +2,6 @@
 {
 	public class Settings
 	{
-		public string PersistanceRoot { get; set; }
+		public string CurrentWorkspace { get; set; } = "Default";
 	}
 }

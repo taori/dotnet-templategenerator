@@ -10,6 +10,6 @@
 		/// <summary>
 		/// Contents of a template
 		/// </summary>
-		public Template Temlate { get; set; }
+		public Template Template { get; set; }
 	}
 }

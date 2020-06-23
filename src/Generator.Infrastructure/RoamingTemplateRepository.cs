@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Generator.Domain.Configuration;
 using Generator.Domain.Entities;
-using Generator.Domain.Persistance;
+using Generator.Domain.Persistence;
 
 namespace Generator.Infrastructure
 {
@@ -16,14 +16,13 @@ namespace Generator.Infrastructure
 			_settings = settings;
 		}
 
-		/// <inheritdoc />
-		public Task SaveAsync(IEnumerable<TemplateContainer> containers)
+		public Task<TemplateContainer[]> GetTemplatesAsync()
 		{
 			throw new NotImplementedException();
 		}
 
 		/// <inheritdoc />
-		Task<TemplateContainer[]> ITemplateRepository.GetTemplatesAsync()
+		public Task SaveAsync(IEnumerable<TemplateContainer> containers)
 		{
 			throw new NotImplementedException();
 		}
