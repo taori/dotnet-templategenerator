@@ -6,7 +6,7 @@ namespace Generator.Domain.Persistence
 {
 	public interface ITemplateRepository
 	{
-		Task<TemplateContainer[]> GetTemplatesAsync();
-		Task SaveAsync(IEnumerable<TemplateContainer> containers);
+		Task<TemplateContainer[]> GetTemplatesAsync(string workspace);
+		Task SaveAsync(string workspace, IEnumerable<TemplateContainer> containers);
 	}
 }

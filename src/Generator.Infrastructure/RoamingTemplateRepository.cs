@@ -1,30 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Abstractions;
 using System.Threading.Tasks;
 using Generator.Domain.Configuration;
 using Generator.Domain.Entities;
 using Generator.Domain.Persistence;
+using Generator.Domain.Resources;
+using Generator.Domain.Services;
+using Newtonsoft.Json;
 
 namespace Generator.Infrastructure
 {
 	public class RoamingTemplateRepository : ITemplateRepository
 	{
-		private readonly Settings _settings;
+		private readonly IRoamingPathService _roamingPathService;
+		private readonly IFileSystem _fileSystem;
 
-		public RoamingTemplateRepository(Settings settings)
+		public RoamingTemplateRepository(IRoamingPathService roamingPathService, IFileSystem fileSystem)
 		{
-			_settings = settings;
+			_roamingPathService = roamingPathService;
+			_fileSystem = fileSystem;
 		}
 
-		public Task<TemplateContainer[]> GetTemplatesAsync()
+		public async Task<TemplateContainer[]> GetTemplatesAsync(string workspace)
 		{
-			throw new NotImplementedException();
+			var filePath = _roamingPathService.GetPath(Constants.Paths.Workspace, workspace, "templates.json");
+			if (!_fileSystem.File.Exists(filePath))
+				return Array.Empty<TemplateContainer>();
+
+			using var stream = _fileSystem.FileStream.Create(filePath, FileMode.Open);
+			using var reader = new StreamReader(stream);
+			var content = await reader.ReadToEndAsync();
+			
+			return await Task.Run(() => JsonConvert.DeserializeObject<TemplateContainer[]>(content))
+				.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
-		public Task SaveAsync(IEnumerable<TemplateContainer> containers)
+		public async Task SaveAsync(string workspace, IEnumerable<TemplateContainer> containers)
 		{
-			throw new NotImplementedException();
+			var filePath = _roamingPathService.GetPath(Constants.Paths.Workspace, workspace, "templates.json");
+			_roamingPathService.EnsureDirectoryExists(Constants.Paths.Workspace, workspace, "templates.json");
+			using var stream = _fileSystem.FileStream.Create(filePath, FileMode.Create);
+			using var streamWriter = new StreamWriter(stream);
+			var serialized = JsonConvert.SerializeObject(containers);
+			await streamWriter.WriteAsync(serialized);
 		}
 	}
 }
