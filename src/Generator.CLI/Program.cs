@@ -27,8 +27,9 @@ namespace Generator.CLI
 				content = Environment.UserInteractive 
 					? Console.ReadLine() 
 					: string.Join(' ', args);
-				
-				result = await RunApplication(args);
+
+				var splitted = content.Split(' ');
+				result = await RunApplication(splitted);
 			} while (Environment.UserInteractive && content != "exit");
 
 			return result;
@@ -79,7 +80,7 @@ namespace Generator.CLI
 			runner
 				.UseNameCasing(Case.LowerCase, true)
 				.UseCommandLogger()
-				.UseTypoSuggestions()
+				// .UseTypoSuggestions()
 				.UseMicrosoftDependencyInjection(BuildServiceProvider());
 		}
 
