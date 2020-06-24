@@ -7,5 +7,10 @@
 			public const string Workspace = "workspace";
 			public const string SettingsFile = "settings.json";
 		}
+		
+		public class WellKnownErrorCodes
+		{
+			
+		}
 	}
 }

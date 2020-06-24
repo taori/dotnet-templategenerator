@@ -2,7 +2,7 @@
 using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
-using Generator.Domain.Services;
+using Generator.Domain.FileSystem;
 
 namespace Generator.Infrastructure
 {

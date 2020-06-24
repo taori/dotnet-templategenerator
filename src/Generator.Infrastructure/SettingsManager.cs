@@ -2,8 +2,8 @@
 using System.IO.Abstractions;
 using System.Threading.Tasks;
 using Generator.Domain.Configuration;
+using Generator.Domain.FileSystem;
 using Generator.Domain.Resources;
-using Generator.Domain.Services;
 using Newtonsoft.Json;
 
 namespace Generator.Infrastructure

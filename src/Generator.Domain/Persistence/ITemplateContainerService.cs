@@ -1,4 +1,4 @@
-﻿namespace Generator.Domain.Services
+﻿namespace Generator.Domain.Persistence
 {
 	public interface ITemplateContainerService
 	{

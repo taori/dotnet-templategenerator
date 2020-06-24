@@ -1,4 +1,4 @@
-﻿namespace Generator.Domain.Services
+﻿namespace Generator.Domain.FileSystem
 {
     public interface IRoamingPathService
     {

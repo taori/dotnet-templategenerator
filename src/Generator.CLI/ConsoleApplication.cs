@@ -10,35 +10,52 @@ namespace Generator.CLI
 	public class ConsoleApplication
 	{
 		[SubCommand]
-		public class New
+		public class Template
 		{
-			private readonly ILogger<New> _log;
+			private readonly ILogger<Template> _log;
 			private readonly ITemplateCreation _templateCreation;
+			private readonly ITemplateRemoval _templateRemoval;
 
-			public New(ILogger<New> log, ITemplateCreation templateCreation)
+			public Template(ILogger<Template> log, ITemplateCreation templateCreation, ITemplateRemoval templateRemoval)
 			{
 				_log = log ?? throw new ArgumentNullException(nameof(log));
 				_templateCreation = templateCreation ?? throw new ArgumentNullException(nameof(templateCreation));
+				_templateRemoval = templateRemoval;
 			}
-
-			[Command(Name = "template")]
-			public async Task Template(string id)
+			
+			[Command(Name = "create")]
+			public async Task Create(string id, string? workspace)
 			{
-				_log.LogDebug("Creating new template with name {id}", id);
-				await _templateCreation.CreateAsync(id);
+				_log.LogDebug("Creating new template with name {Id}", id);
+				await _templateCreation.CreateAsync(id, workspace);
+			}
+			
+			[Command(Name = "remove")]
+			public async Task Remove(string id, string? workspace)
+			{
+				_log.LogDebug("Creating new template with name {Id}", id);
+				await _templateRemoval.RemoveAsync(id, workspace);
 			}
 		}
-
+		
 		[SubCommand]
-		public class Remove
+		public class Workspace
 		{
-			private readonly ILogger<Remove> _log;
-			private readonly ITemplateRemoval _templateRemoval;
+			private readonly ILogger<Workspace> _log;
+			private readonly IWorkspaceCreation _workspaceCreation;
 
-			public Remove(ILogger<Remove> log, ITemplateRemoval templateRemoval)
+			public Workspace(ILogger<Workspace> log, IWorkspaceCreation workspaceCreation)
 			{
 				_log = log ?? throw new ArgumentNullException(nameof(log));
-				_templateRemoval = templateRemoval ?? throw new ArgumentNullException(nameof(templateRemoval));
+				_workspaceCreation = workspaceCreation ?? throw new ArgumentNullException(nameof(workspaceCreation)) ;
+			}
+
+
+			[Command(Name = "create")]
+			public async Task Create(string id)
+			{
+				_log.LogDebug("Creating new workspace with name {Id}", id);
+				await _workspaceCreation.CreateAsync(id);
 			}
 		}
 	}

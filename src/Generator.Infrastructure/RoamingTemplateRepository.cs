@@ -5,9 +5,9 @@ using System.IO.Abstractions;
 using System.Threading.Tasks;
 using Generator.Domain.Configuration;
 using Generator.Domain.Entities;
+using Generator.Domain.FileSystem;
 using Generator.Domain.Persistence;
 using Generator.Domain.Resources;
-using Generator.Domain.Services;
 using Newtonsoft.Json;
 
 namespace Generator.Infrastructure

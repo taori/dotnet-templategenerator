@@ -4,6 +4,9 @@ using System.Collections.Generic;
 namespace Generator.Domain.Entities
 {
 	// http://json.schemastore.org/template
+	// https://docs.microsoft.com/de-de/dotnet/core/tools/dotnet-new
+	// https://github.com/dotnet/dotnet-template-samples
+	// https://github.com/dotnet/templating/wiki/Reference-for-template.json
 	// https://github.com/dotnet/templating/blob/5b5eb6278bd745149a57d0882d655b29d02c70f4/src/Microsoft.TemplateEngine.Orchestrator.RunnableProjects/SimpleConfigModel.cs
 	public class Template
 	{
@@ -71,11 +74,11 @@ namespace Generator.Domain.Entities
 		/// Indicates whether to create a directory for the template if name is specified but an output directory is not set (instead of creating the content directly in the current directory)
 		/// </summary>
 		public bool PreferNameDirectory { get; set; } = true;
-		
+
 		/// <summary>
 		/// A list of guids which appear in the template source and should be replaced in the template output. For each guid listed, a replacement guid is generated, and replaces all occurrences of the source guid in the output.
 		/// </summary>
-		public Guid[] Guids { get; set; }
+		public Guid[] Guids { get; set; } = Array.Empty<Guid>();
 
 		/// <summary>
 		/// Common information about templates, these are effectively interchangeable with choice type parameter symbols

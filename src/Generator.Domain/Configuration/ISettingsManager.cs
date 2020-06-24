@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
-using Generator.Domain.Configuration;
 
-namespace Generator.Domain.Services
+namespace Generator.Domain.Configuration
 {
     public interface ISettingsManager
     {

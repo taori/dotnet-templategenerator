@@ -10,6 +10,6 @@ namespace Generator.Domain.Features
 		/// </summary>
 		/// <param name="identifier">identifier used to create/modify/delete a template.</param>
 		/// <returns></returns>
-		Task CreateAsync(string identifier);
+		Task CreateAsync(string identifier, string? workspace);
 	}
 }
