@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CommandDotNet;
+using Generator.Domain.Configuration;
 using Generator.Domain.Features;
 using Microsoft.Extensions.Logging;
 
@@ -13,28 +14,30 @@ namespace Generator.CLI
 		public class Template
 		{
 			private readonly ILogger<Template> _log;
-			private readonly ITemplateCreation _templateCreation;
-			private readonly ITemplateRemoval _templateRemoval;
+			private readonly ITemplateManager _templateManager;
+			private readonly ISettingsManager _settingsManager;
+			private Settings _settings;
 
-			public Template(ILogger<Template> log, ITemplateCreation templateCreation, ITemplateRemoval templateRemoval)
+			public Template(ILogger<Template> log, ITemplateManager templateManager, ISettingsManager settingsManager)
 			{
 				_log = log ?? throw new ArgumentNullException(nameof(log));
-				_templateCreation = templateCreation ?? throw new ArgumentNullException(nameof(templateCreation));
-				_templateRemoval = templateRemoval;
+				_templateManager = templateManager ?? throw new ArgumentNullException(nameof(templateManager));
+				_settingsManager = settingsManager ?? throw new ArgumentNullException(nameof(settingsManager));
+				_settings = settingsManager.LoadAsync().GetAwaiter().GetResult();
 			}
 			
 			[Command(Name = "create")]
 			public async Task Create(string id, string? workspace)
 			{
 				_log.LogDebug("Creating new template with name {Id}", id);
-				await _templateCreation.CreateAsync(id, workspace);
+				await _templateManager.CreateAsync(id, workspace ?? _settings.CurrentWorkspace);
 			}
 			
 			[Command(Name = "remove")]
 			public async Task Remove(string id, string? workspace)
 			{
 				_log.LogDebug("Creating new template with name {Id}", id);
-				await _templateRemoval.RemoveAsync(id, workspace);
+				await _templateManager.RemoveAsync(id, workspace ?? _settings.CurrentWorkspace);
 			}
 		}
 		
@@ -42,12 +45,12 @@ namespace Generator.CLI
 		public class Workspace
 		{
 			private readonly ILogger<Workspace> _log;
-			private readonly IWorkspaceCreation _workspaceCreation;
+			private readonly IWorkspaceManager _workspaceManager;
 
-			public Workspace(ILogger<Workspace> log, IWorkspaceCreation workspaceCreation)
+			public Workspace(ILogger<Workspace> log, IWorkspaceManager workspaceManager)
 			{
 				_log = log ?? throw new ArgumentNullException(nameof(log));
-				_workspaceCreation = workspaceCreation ?? throw new ArgumentNullException(nameof(workspaceCreation)) ;
+				_workspaceManager = workspaceManager ?? throw new ArgumentNullException(nameof(workspaceManager)) ;
 			}
 
 
@@ -55,7 +58,7 @@ namespace Generator.CLI
 			public async Task Create(string id)
 			{
 				_log.LogDebug("Creating new workspace with name {Id}", id);
-				await _workspaceCreation.CreateAsync(id);
+				await _workspaceManager.CreateAsync(id);
 			}
 		}
 	}

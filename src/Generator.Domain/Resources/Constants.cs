@@ -10,7 +10,7 @@
 		
 		public class WellKnownErrorCodes
 		{
-			
+			public const int WorkspaceAlreadyExists = 2;
 		}
 	}
 }

@@ -2,7 +2,7 @@
 
 namespace Generator.Domain.Features
 {
-	public interface IWorkspaceCreation
+	public interface IWorkspaceManager
 	{
 		Task CreateAsync(string id);
 	}

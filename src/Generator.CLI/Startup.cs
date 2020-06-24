@@ -1,7 +1,11 @@
 ﻿using System;
+using System.IO.Abstractions;
 using System.Linq;
 using System.Reflection;
 using CommandDotNet;
+using Generator.Domain.Features;
+using Generator.Domain.FileSystem;
+using Generator.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog;
@@ -38,8 +42,12 @@ namespace Generator.CLI
 		private static void RegisterCommonServices(ServiceCollection serviceCollection)
 		{
 			Log.Debug("Registering common services.");
-			serviceCollection.AddTransient(typeof(ILoggerFactory), typeof(NLogLoggerFactory));
-			serviceCollection.AddTransient(typeof(ILogger<>), typeof(Logger<>));
+			serviceCollection.AddScoped(typeof(ILoggerFactory), typeof(NLogLoggerFactory));
+			serviceCollection.AddScoped(typeof(ILogger<>), typeof(Logger<>));
+			serviceCollection.AddScoped<IWorkspaceManager, WorkspaceManager>();
+			serviceCollection.AddScoped<ITemplateManager, TemplateManager>();
+			serviceCollection.AddScoped<IRoamingPathService, RoamingPathService>();
+			serviceCollection.AddScoped<IFileSystem, FileSystem>();
 		}
 	}
 }
