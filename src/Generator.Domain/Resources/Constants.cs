@@ -11,6 +11,7 @@
 		public class WellKnownErrorCodes
 		{
 			public const int WorkspaceAlreadyExists = 2;
+			public const int WorkspaceDoesNotExist = 3;
 		}
 	}
 }
