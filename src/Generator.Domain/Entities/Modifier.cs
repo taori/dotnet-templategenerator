@@ -42,6 +42,6 @@ namespace Generator.Domain.Entities
 		/// </summary>
 		public string[] CopyOnly { get; set; } = DefaultCopyOnly;
 
-		public Dictionary<string, string> Rename { get; set; }
+		public Dictionary<string, string> Rename { get; set; } = new Dictionary<string, string>();
 	}
 }

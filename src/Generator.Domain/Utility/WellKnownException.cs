@@ -19,12 +19,12 @@ namespace Generator.Domain.Utility
 
 		public WellKnownException(int exitCode, string message) : base(message)
 		{
-			_exitCode = exitCode;
+			ExitCode = exitCode;
 		}
 
 		public WellKnownException(int exitCode, string message, Exception innerException) : base(message, innerException)
 		{
-			_exitCode = exitCode;
+			ExitCode = exitCode;
 		}
 	}
 }
