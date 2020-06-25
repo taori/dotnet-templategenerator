@@ -4,6 +4,8 @@ using System.Linq;
 using System.Reflection;
 using CommandDotNet;
 using Generator.Domain.Features;
+using Generator.Domain.Features.Template;
+using Generator.Domain.Features.Workspace;
 using Generator.Domain.FileSystem;
 using Generator.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;

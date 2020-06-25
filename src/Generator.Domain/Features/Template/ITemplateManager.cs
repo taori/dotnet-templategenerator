@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
-using Generator.Domain.Entities;
 
-namespace Generator.Domain.Features
+namespace Generator.Domain.Features.Template
 {
 	public interface ITemplateManager
 	{

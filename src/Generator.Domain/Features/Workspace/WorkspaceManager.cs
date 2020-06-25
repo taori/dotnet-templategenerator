@@ -6,11 +6,11 @@ using Generator.Domain.Resources;
 using Generator.Domain.Utility;
 using NLog;
 
-namespace Generator.Domain.Features
+namespace Generator.Domain.Features.Workspace
 {
 	public class WorkspaceManager : IWorkspaceManager
 	{
-		private static readonly NLog.ILogger Log = LogManager.GetLogger("WorkspaceCreation");
+		private static readonly ILogger Log = LogManager.GetLogger("WorkspaceCreation");
 		
 		private readonly IRoamingPathService _roamingPathService;
 		private readonly IFileSystem _fileSystem;

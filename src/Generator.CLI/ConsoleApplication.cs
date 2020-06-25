@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using CommandDotNet;
 using Generator.Domain.Configuration;
 using Generator.Domain.Features;
+using Generator.Domain.Features.Template;
+using Generator.Domain.Features.Workspace;
 using Microsoft.Extensions.Logging;
 
 namespace Generator.CLI

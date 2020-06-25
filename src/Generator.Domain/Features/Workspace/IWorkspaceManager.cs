@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Generator.Domain.Features
+namespace Generator.Domain.Features.Workspace
 {
 	public interface IWorkspaceManager
 	{
