@@ -15,9 +15,10 @@ namespace Generator.Infrastructure.UnitTests
         {
             var mockFileSystem = new MockFileSystem();
             var manager = new WorkspaceManager(new RoamingPathService(mockFileSystem), mockFileSystem);
-            await manager.CreateAsync("test");
+            var workspace = await manager.CreateAsync("test");
             manager.Exists("test").ShouldBeTrue();
             manager.Exists("test2").ShouldBeFalse();
+            workspace.Directory.ShouldEndWith("test");
         }
         
         [Fact]
@@ -29,6 +30,44 @@ namespace Generator.Infrastructure.UnitTests
             manager.Exists("test").ShouldBeTrue();
             var ex = await Assert.ThrowsAsync<WellKnownException>(async() => await manager.CreateAsync("test"));
             ex.ExitCode.ShouldBe(Constants.WellKnownErrorCodes.WorkspaceAlreadyExists);
+        }
+        
+        [Fact]
+        public async Task GetNoExists()
+        {
+            var mockFileSystem = new MockFileSystem();
+            var manager = new WorkspaceManager(new RoamingPathService(mockFileSystem), mockFileSystem);
+            var ex = await Assert.ThrowsAsync<WellKnownException>(async() => await manager.GetAsync("test"));
+            ex.ExitCode.ShouldBe(Constants.WellKnownErrorCodes.WorkspaceDoesNotExist);
+        }
+        
+        [Fact]
+        public async Task GetWithExists()
+        {
+            var mockFileSystem = new MockFileSystem();
+            var manager = new WorkspaceManager(new RoamingPathService(mockFileSystem), mockFileSystem);
+            await manager.CreateAsync("test");
+            var workspace = await manager.GetAsync("test");
+            workspace.ShouldNotBeNull();
+        }
+        
+        [Fact]
+        public async Task RemoveWithExists()
+        {
+            var mockFileSystem = new MockFileSystem();
+            var manager = new WorkspaceManager(new RoamingPathService(mockFileSystem), mockFileSystem);
+            await manager.CreateAsync("test");
+            var workspace = await manager.RemoveAsync("test");
+            workspace.ShouldNotBeNull();
+        }
+        
+        [Fact]
+        public async Task RemoveNoExists()
+        {
+            var mockFileSystem = new MockFileSystem();
+            var manager = new WorkspaceManager(new RoamingPathService(mockFileSystem), mockFileSystem);
+            var workspace = await manager.RemoveAsync("test");
+            workspace.ShouldNotBeNull();
         }
         
         [Fact]

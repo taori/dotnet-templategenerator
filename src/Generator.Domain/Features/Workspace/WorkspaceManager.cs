@@ -47,7 +47,7 @@ namespace Generator.Domain.Features.Workspace
 		{
 			try
 			{
-				Log.Debug("Retrieving workspace {Id}", id);
+				Log.Debug("Removing workspace {Id}", id);
 				var path = _roamingPathService.GetPath(Constants.Paths.Workspace, id);
 				if (!_fileSystem.Directory.Exists(path))
 					throw new WellKnownException(Constants.WellKnownErrorCodes.WorkspaceDoesNotExist, $"Workspace {id} does not exist.");
