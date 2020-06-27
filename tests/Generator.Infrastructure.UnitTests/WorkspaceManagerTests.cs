@@ -28,8 +28,9 @@ namespace Generator.Infrastructure.UnitTests
             var manager = new WorkspaceManager(new RoamingPathService(mockFileSystem), mockFileSystem);
             await manager.CreateAsync("test");
             manager.Exists("test").ShouldBeTrue();
-            var ex = await Assert.ThrowsAsync<WellKnownException>(async() => await manager.CreateAsync("test"));
+            var ex = await Assert.ThrowsAsync<WorkspaceAlreadyExistsException>(async() => await manager.CreateAsync("test"));
             ex.ExitCode.ShouldBe(Constants.WellKnownErrorCodes.WorkspaceAlreadyExists);
+            ex.WorkspaceName.ShouldBe("test");
         }
         
         [Fact]
@@ -37,8 +38,9 @@ namespace Generator.Infrastructure.UnitTests
         {
             var mockFileSystem = new MockFileSystem();
             var manager = new WorkspaceManager(new RoamingPathService(mockFileSystem), mockFileSystem);
-            var ex = await Assert.ThrowsAsync<WellKnownException>(async() => await manager.GetAsync("test"));
+            var ex = await Assert.ThrowsAsync<WorkspaceNotFoundException>(async() => await manager.GetAsync("test"));
             ex.ExitCode.ShouldBe(Constants.WellKnownErrorCodes.WorkspaceDoesNotExist);
+            ex.WorkspaceName.ShouldBe("test");
         }
         
         [Fact]

@@ -17,12 +17,7 @@ namespace Generator.Domain.Utility
 			}
 		}
 
-		public WellKnownException(int exitCode, string message) : base(message)
-		{
-			ExitCode = exitCode;
-		}
-
-		public WellKnownException(int exitCode, string message, Exception innerException) : base(message, innerException)
+		public WellKnownException(int exitCode)
 		{
 			ExitCode = exitCode;
 		}

@@ -1,4 +1,6 @@
-﻿namespace Generator.Domain.Features.Workspace
+﻿using System.IO;
+
+namespace Generator.Domain.Features.Workspace
 {
 	public interface IWorkspace
 	{

@@ -10,19 +10,19 @@ namespace Generator.Infrastructure.UnitTests
         [Fact]
         public void TestExitCodeConstructor2Throws()
         {
-            Assert.Throws<ArgumentException>(() => new WellKnownException(0, "test"));
+            Assert.Throws<ArgumentException>(() => new WellKnownException(0));
         }
         
         [Fact]
         public void TestExitCodeConstructor3Throws()
         {
-            Assert.Throws<ArgumentException>(() => new WellKnownException(0, "test", new Exception()));
+            Assert.Throws<ArgumentException>(() => new WellKnownException(0));
         }
         
         [Fact]
         public void TestValidConstructor2()
         {
-            var ex = new WellKnownException(1, "test");
+            var ex = new WellKnownException(1);
             ex.ShouldNotBeNull();
             ex.ExitCode.ShouldBe(1);
         }
@@ -30,7 +30,7 @@ namespace Generator.Infrastructure.UnitTests
         [Fact]
         public void TestValidConstructor3()
         {
-            var ex = new WellKnownException(1, "test", new Exception());
+            var ex = new WellKnownException(1);
             ex.ShouldNotBeNull();
             ex.ExitCode.ShouldBe(1);
         }

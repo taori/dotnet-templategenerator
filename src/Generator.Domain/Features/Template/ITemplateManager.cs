@@ -10,14 +10,14 @@ namespace Generator.Domain.Features.Template
 		/// Creates a template container for the usage within this tool.
 		/// </summary>
 		/// <param name="id">identifier used to create/modify/delete a template.</param>
-		/// <param name="workspace">containing workspace</param>
+		/// <param name="workspaceId">containing workspace</param>
 		/// <returns></returns>
-		Task<TemplateContainer> CreateAsync(string id, string workspace);
+		Task<TemplateContainer> CreateAsync(string id, string workspaceId);
 
-		Task RemoveAsync(string id, string workspace);
+		Task RemoveAsync(string id, string workspaceId);
 
-		Task<IList<TemplateContainer>> GetAllByWorkspace(string workspace);
+		Task<IList<TemplateContainer>> GetAllByWorkspaceAsync(string workspaceId);
 		
-		Task<TemplateContainer> GetById(string workspace, string id);
+		Task<TemplateContainer> GetByIdAsync(string workspaceId, string id);
 	}
 }

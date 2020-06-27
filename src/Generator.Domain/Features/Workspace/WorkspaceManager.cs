@@ -26,7 +26,7 @@ namespace Generator.Domain.Features.Workspace
 			Log.Debug("Creating workspace");
 			var path = _roamingPathService.GetPath(Constants.Paths.Workspace, id);
 			if (_fileSystem.Directory.Exists(path))
-				throw new WellKnownException(Constants.WellKnownErrorCodes.WorkspaceAlreadyExists, $"Workspace {id} already exists.");
+				throw new WorkspaceAlreadyExistsException(id);
 			
 			_roamingPathService.EnsureDirectoryExists(Constants.Paths.Workspace, id);
 			
@@ -38,7 +38,7 @@ namespace Generator.Domain.Features.Workspace
 			Log.Debug("Retrieving workspace {Id}", id);
 			var path = _roamingPathService.GetPath(Constants.Paths.Workspace, id);
 			if (!_fileSystem.Directory.Exists(path))
-				throw new WellKnownException(Constants.WellKnownErrorCodes.WorkspaceDoesNotExist, $"Workspace {id} does not exist.");
+				throw new WorkspaceNotFoundException(id);
 			
 			return Task.FromResult(new Workspace(path) as IWorkspace);
 		}
@@ -50,7 +50,7 @@ namespace Generator.Domain.Features.Workspace
 				Log.Debug("Removing workspace {Id}", id);
 				var path = _roamingPathService.GetPath(Constants.Paths.Workspace, id);
 				if (!_fileSystem.Directory.Exists(path))
-					throw new WellKnownException(Constants.WellKnownErrorCodes.WorkspaceDoesNotExist, $"Workspace {id} does not exist.");
+					throw new WorkspaceNotFoundException(id);
 
 				_fileSystem.Directory.Delete(path);
 				return Task.FromResult(true);

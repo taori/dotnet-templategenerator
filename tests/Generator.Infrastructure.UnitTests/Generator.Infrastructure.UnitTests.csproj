@@ -20,4 +20,9 @@
       <ProjectReference Include="..\..\src\Generator.Infrastructure\Generator.Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="ExpectedOutput\Serialization\parameterSymbol.json" />
+      <EmbeddedResource Include="ExpectedOutput\Serialization\parameterSymbol.json" />
+    </ItemGroup>
+
 </Project>

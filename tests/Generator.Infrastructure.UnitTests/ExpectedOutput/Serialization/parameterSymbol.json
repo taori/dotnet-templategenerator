@@ -1,0 +1,7 @@
+﻿{
+	"dataType": "Hex",
+	"type": "Parameter",
+	"replaces": "replaces",
+	"defaultValue": "defaultValue",
+	"description": "description"
+}
